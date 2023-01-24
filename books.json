@@ -1,0 +1,44 @@
+[
+ {
+  "Id": 0,
+  "title": "Power of one",
+  "author": "Oneman",
+  "pages": 1
+ },
+ {
+  "Id": 1,
+  "title": "Power of one",
+  "author": "Oneman",
+  "pages": 1
+ },
+ {
+  "Id": 2,
+  "title": "Power of one",
+  "author": "Oneman",
+  "pages": 1
+ },
+ {
+  "Id": 3,
+  "title": "Power of one",
+  "author": "Oneman",
+  "pages": 1
+ },
+ {
+  "Id": 4,
+  "title": "Power of two",
+  "author": "Twoman",
+  "pages": 2
+ },
+ {
+  "Id": 5,
+  "title": "Power of three",
+  "author": "Threeman",
+  "pages": 3
+ },
+ {
+  "Id": 6,
+  "title": "Power of four",
+  "author": "Fourman",
+  "pages": 4
+ }
+]
