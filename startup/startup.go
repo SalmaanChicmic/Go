@@ -1,9 +1,11 @@
 package startup
 
-import "github.com/SalmaanChicmic/Go/routes"
+import (
+	"github.com/SalmaanChicmic/Go/routes"
+)
 
 func Startup() {
-	// start gin router
+	// start router
 	routes.Router()
 
 }

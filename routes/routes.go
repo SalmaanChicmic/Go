@@ -1,21 +1,22 @@
 package routes
 
 import (
+	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/SalmaanChicmic/Go/config"
 	"github.com/SalmaanChicmic/Go/controller"
-	"github.com/gin-gonic/gin"
 )
 
 func Router() {
-	router := gin.New()
+	// test route
+	http.HandleFunc("/", controller.Test)
+	// // books
+	http.HandleFunc("/books", controller.GetBook)
+	// router.GET("/books", controller.GetBooks)
+	// router.POST("/books", controller.SaveBooks)
 
-	router.SetTrustedProxies([]string{"112.196.113.2"})
-
-	router.GET("/", controller.Test)
-	// books
-	router.GET("/books/:id", controller.GetBook)
-	router.GET("/books", controller.GetBooks)
-	router.POST("/books", controller.SaveBooks)
-
-	router.Run(config.PORT)
+	fmt.Printf("Listening to port: %v \n", config.PORT)
+	log.Fatal(http.ListenAndServe(config.PORT, nil))
 }
