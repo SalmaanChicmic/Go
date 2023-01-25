@@ -1,6 +1,8 @@
-module github.com/SalmaanChicmic/Golang
+module github.com/SalmaanChicmic/Go
 
 go 1.19
+
+// replace github.com/SalmaanChicmic/Go => ../Go
 
 require github.com/gin-gonic/gin v1.8.2
 

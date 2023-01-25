@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/SalmaanChicmic/Golang/config"
-	"github.com/SalmaanChicmic/Golang/controller"
+	"github.com/SalmaanChicmic/Go/config"
+	"github.com/SalmaanChicmic/Go/controller"
 	"github.com/gin-gonic/gin"
 )
 

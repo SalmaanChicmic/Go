@@ -8,9 +8,9 @@ import (
 
 	"net/http"
 
-	"github.com/SalmaanChicmic/Golang/constants"
-	"github.com/SalmaanChicmic/Golang/models"
-	"github.com/SalmaanChicmic/Golang/services"
+	"github.com/SalmaanChicmic/Go/constants"
+	"github.com/SalmaanChicmic/Go/models"
+	"github.com/SalmaanChicmic/Go/services"
 	"github.com/gin-gonic/gin"
 )
 

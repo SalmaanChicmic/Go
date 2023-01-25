@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/SalmaanChicmic/Golang/models"
+	"github.com/SalmaanChicmic/Go/models"
 )
 
 func GetExistingBooks() ([]models.Book, error) {

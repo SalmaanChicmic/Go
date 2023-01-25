@@ -1,6 +1,6 @@
 package startup
 
-import "github.com/SalmaanChicmic/Golang/routes"
+import "github.com/SalmaanChicmic/Go/routes"
 
 func Startup() {
 	// start gin router

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/SalmaanChicmic/Golang/startup"
+import "github.com/SalmaanChicmic/Go/startup"
 
 func main() {
 	startup.Startup()
