@@ -11,12 +11,27 @@ import (
 
 	"net/http"
 
+	"github.com/SalmaanChicmic/Go/constants"
 	"github.com/SalmaanChicmic/Go/models"
+	"github.com/SalmaanChicmic/Go/services"
 	// "github.com/SalmaanChicmic/Go/services"
 )
 
-/*
- */
+// response types
+type response struct {
+	Message string
+}
+
+type bookRes struct {
+	Message string
+	Book    models.Book
+}
+
+type booksRes struct {
+	Message string
+	Books   []models.Book
+}
+
 func Test(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Server is healthy, world!\n")
 }
@@ -28,18 +43,11 @@ func GetBook(w http.ResponseWriter, req *http.Request) {
 
 	file, err := ioutil.ReadFile("books.json")
 	if err != nil {
-		// // if file does not exist
-		c.JSON(http.StatusOK, gin.H{
-			"message": "No books found",
-		})
-		
-		res := json.Marshal({
-			"message": "No books found",
-		})
+		// if file does not exist
+		res := bookRes{Message: constants.FILE_NOT_FOUND}
 
 		w.Header().Set("Content-Type", "application/json")
-        w.Write()
-
+		json.NewEncoder(w).Encode(res)
 
 		return
 	}
@@ -47,71 +55,90 @@ func GetBook(w http.ResponseWriter, req *http.Request) {
 	json.Unmarshal(file, &books)
 
 	if len(books) <= bookId {
+		res := bookRes{Message: constants.BOOK_NOT_FOUND}
 
-		// c.JSON(http.StatusOK, gin.H{
-		// 	"message": constants.BOOK_NOT_FOUND,
-		// })
-
-		io.WriteString(w, "Server is healthy, world!\n")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 
 		return
 	}
 
-	io.WriteString(w, "Server is healthy, world!\n")
+	res := bookRes{Message: constants.SUCCESS, Book: books[bookId]}
 
-	// c.JSON(http.StatusOK, gin.H{
-	// 	"message": constants.SUCCESS,
-	// 	"data":    books[bookId],
-	// })
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
 }
 
-// func GetBooks(w http.ResponseWriter, req *http.Request) {
-// 	var books []models.Book
+func getBooks(w http.ResponseWriter, req *http.Request) {
 
-// 	file, err := ioutil.ReadFile("books.json")
-// 	if err != nil {
-// 		// if file does not exist
-// 		c.JSON(http.StatusOK, gin.H{
-// 			"message": constants.BOOK_NOT_FOUND,
-// 		})
-// 	} else {
-// 		json.Unmarshal(file, &books)
+	var books []models.Book
 
-// 		c.JSON(http.StatusOK, gin.H{
-// 			"message": constants.SUCCESS,
-// 			"data":    books,
-// 		})
-// 	}
-// }
+	file, err := ioutil.ReadFile("books.json")
+	if err != nil {
+		// if file does not exist
+		res := response{Message: constants.FILE_NOT_FOUND}
 
-// func SaveBooks(w http.ResponseWriter, req *http.Request) {
-// 	books, err := services.GetExistingBooks()
-// 	if err != nil {
-// 		c.JSON(http.StatusOK, gin.H{
-// 			"message": constants.BOOK_NOT_FOUND,
-// 		})
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 
-// 		return
-// 	}
+		return
 
-// 	var book models.Book
+	} else {
+		json.Unmarshal(file, &books)
 
-// 	err = c.ShouldBindJSON(&book)
-// 	if err != nil {
-// 		fmt.Println(constants.ERROR_OCCURED, err)
-// 		panic(constants.ERROR_OCCURED)
-// 	}
+		res := booksRes{Message: constants.SUCCESS, Books: books}
 
-// 	book.Id = len(books)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
+	}
+}
 
-// 	books = append(books, book)
+func saveBooks(w http.ResponseWriter, req *http.Request) {
+	books, err := services.GetExistingBooks()
 
-// 	bookData, _ := json.MarshalIndent(books, "", " ")
+	if err != nil {
+		// if file does not exist
+		res := response{Message: constants.FILE_NOT_FOUND}
 
-// 	_ = ioutil.WriteFile("books.json", bookData, 0644)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"message": "book saved",
-// 	})
+		return
+	}
 
-// }
+	var book models.Book
+
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		fmt.Println(constants.ERROR_OCCURED, err)
+		panic(constants.ERROR_OCCURED)
+	}
+
+	json.Unmarshal(body, &book)
+
+	book.Id = len(books)
+
+	books = append(books, book)
+
+	bookData, _ := json.MarshalIndent(books, "", " ")
+
+	_ = ioutil.WriteFile("books.json", bookData, 0644)
+
+	res := response{Message: constants.SUCCESS}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
+
+}
+
+func HandleBooks(w http.ResponseWriter, req *http.Request) {
+
+	if req.Method == "GET" {
+		getBooks(w, req)
+	}
+
+	if req.Method == "POST" {
+		saveBooks(w, req)
+	}
+
+}

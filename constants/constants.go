@@ -2,6 +2,7 @@ package constants
 
 // MESSAGS
 var (
+	FILE_NOT_FOUND string = "File not found"
 	BOOK_NOT_FOUND string = "Book not found"
 	SUCCESS        string = "Success"
 )

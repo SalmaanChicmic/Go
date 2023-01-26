@@ -40,5 +40,17 @@
   "title": "Power of four",
   "author": "Fourman",
   "pages": 4
+ },
+ {
+   "Id": 7,
+   "title": "Power of four",
+   "author": "Fourman",
+   "pages": 0
+ },
+ {
+  "Id": 8,
+  "title": "Power of night",
+  "author": "nightman",
+  "pages": 9
  }
 ]
